@@ -118,12 +118,14 @@ def load_dataset(dataset):
     print("Computing class weights...")
     print("(this can take a while depending on the dataset size)")
     class_weights = 0
-    if args.weighing.lower() == 'enet':
-        class_weights = enet_weighing(train_loader, num_classes)
-    elif args.weighing.lower() == 'mfb':
-        class_weights = median_freq_balancing(train_loader, num_classes)
-    else:
-        class_weights = None
+    # if args.weighing.lower() == 'enet':
+    #     class_weights = enet_weighing(train_loader, num_classes)
+    # elif args.weighing.lower() == 'mfb':
+    #     class_weights = median_freq_balancing(train_loader, num_classes)
+    # else:
+    #     class_weights = None
+
+    class_weights = np.array([8.0054, 3.3588, 14.0052, 4.9767, 39.2308, 36.4852, 32.8765, 46.2831, 40.6821, 6.6875, 33.5241, 18.4556,32.9604, 47.6738, 12.6794, 45.1971, 45.7794, 45.8174, 48.4017, 42.7432])
 
     if class_weights is not None:
         class_weights = torch.from_numpy(class_weights).float().to(device)
