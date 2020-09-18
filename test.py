@@ -1,4 +1,5 @@
 import torch
+import encoding
 
 
 class Test:
@@ -43,7 +44,7 @@ class Test:
 
             with torch.no_grad():
                 # Forward propagation
-                outputs = self.model(inputs)
+                outputs = self.model.evaluate(inputs)
 
                 # Loss computation
                 loss = self.criterion(outputs, labels)

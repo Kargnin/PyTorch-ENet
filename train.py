@@ -1,3 +1,5 @@
+import encoding
+import torch
 class Train:
     """Performs the training of ``model`` given a training dataset data
     loader, the optimizer, and the loss criterion.
@@ -41,7 +43,7 @@ class Train:
             labels = batch_data[1].to(self.device)
 
             # Forward propagation
-            outputs = self.model(inputs)
+            outputs = self.model.evaluate(inputs)
 
             # Loss computation
             loss = self.criterion(outputs, labels)
