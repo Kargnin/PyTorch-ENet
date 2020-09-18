@@ -6,6 +6,7 @@ import torch.optim as optim
 import torch.optim.lr_scheduler as lr_scheduler
 import torch.utils.data as data
 import torchvision.transforms as transforms
+import encoding
 
 from PIL import Image
 
@@ -17,6 +18,7 @@ from metric.iou import IoU
 from args import get_arguments
 from data.utils import enet_weighing, median_freq_balancing
 import utils
+
 
 # Get the arguments
 args = get_arguments()
@@ -142,7 +144,7 @@ def train(train_loader, val_loader, class_weights, class_encoding):
     num_classes = len(class_encoding)
 
     # Intialize ENet
-    model = ENet(num_classes).to(device)
+    model = encoding.models.get_model(args.model, pretrained=False).to(device)
     # Check if the network architecture is correct
     print(model)
 
@@ -190,6 +192,12 @@ def train(train_loader, val_loader, class_weights, class_encoding):
 
         print(">>>> [Epoch: {0:d}] Avg. loss: {1:.4f} | Mean IoU: {2:.4f}".
               format(epoch, epoch_loss, miou))
+
+        if (epoch+1)%(args.num_epochs) == 0:
+            print("\nSaving after {0:d}...\n".format(args.num_epoch))
+            utils.save_checkpoint(model, optimizer, epoch + 1, best_miou,
+                                  args)
+
 
         if (epoch + 1) % 10 == 0 or epoch + 1 == args.epochs:
             print(">>>> [Epoch: {0:d}] Validation".format(epoch))
@@ -305,7 +313,7 @@ if __name__ == '__main__':
         if args.mode.lower() == 'test':
             # Intialize a new ENet model
             num_classes = len(class_encoding)
-            model = ENet(num_classes).to(device)
+            model = encoding.models.get_model(args.model, pretrained=False).to(device)
 
         # Initialize a optimizer just so we can retrieve the model from the
         # checkpoint
