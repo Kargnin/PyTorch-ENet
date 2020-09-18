@@ -194,9 +194,12 @@ def train(train_loader, val_loader, class_weights, class_encoding):
               format(epoch, epoch_loss, miou))
 
         if (epoch+1)%(args.num_epochs) == 0:
+            args_name_orig=args.name
+            args.name=args.name + str(epoch+1)
             print("\nSaving after {0:d}...\n".format(args.num_epoch))
             utils.save_checkpoint(model, optimizer, epoch + 1, best_miou,
                                   args)
+            args.name=args_name_orig
 
 
         if (epoch + 1) % 10 == 0 or epoch + 1 == args.epochs:
