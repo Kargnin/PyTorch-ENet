@@ -22,6 +22,12 @@ def get_arguments():
         help=("The model found in \"--checkpoint_dir/--name/\" and filename "
               "\"--name.h5\" is loaded."))
 
+    parser.add_argument(
+        "--model",
+        choices=['deeplab_resnest50_ade','deeplab_resnest101_ade','deeplab_resnest269_ade','deeplab_resnest200_ade','fcn_resnest50_ade'],
+        default='deeplab_resnest50_ade',
+        help="Model Name .Default:deeplab_resnest50_ade")
+
     # Hyperparameters
     parser.add_argument(
         "--batch-size",
@@ -118,6 +124,11 @@ def get_arguments():
         type=str,
         default='ENet',
         help="Name given to the model when saving. Default: ENet")
+    parser.add_argument(
+        "--num-epochs",
+        type=int,
+        default=10,
+        help="No. of epochs after which model is saved Default: 10")
     parser.add_argument(
         "--save-dir",
         type=str,
