@@ -7,6 +7,7 @@ import torch.optim.lr_scheduler as lr_scheduler
 import torch.utils.data as data
 import torchvision.transforms as transforms
 import encoding
+import numpy as np
 
 from PIL import Image
 
@@ -198,7 +199,7 @@ def train(train_loader, val_loader, class_weights, class_encoding):
         if (epoch+1)%(args.num_epochs) == 0:
             args_name_orig=args.name
             args.name=args.name + str(epoch+1)
-            print("\nSaving after {0:d}...\n".format(args.num_epoch))
+            print("\nSaving after {0:d}...\n".format(args.num_epochs))
             utils.save_checkpoint(model, optimizer, epoch + 1, best_miou,
                                   args)
             args.name=args_name_orig
